@@ -13,7 +13,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        App\Wishlist::class => App\Policies\WishlistPolicy::class
+        App\Wishlist::class => App\Policies\WishlistPolicy::class,
+        App\WishlistItem::class => App\Policies\WishlistItemPolicy::class
     ];
 
     /**

@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\User;
 use App\Wishlist;
+use App\WishlistItem;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class WishlistPolicy
@@ -18,7 +19,7 @@ class WishlistPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -41,7 +42,7 @@ class WishlistPolicy
      */
     public function create(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -82,5 +83,51 @@ class WishlistPolicy
     {
         // Only the owner can delete the model
         return ($user->getKey() == $wishlist->user_id);
+    }
+
+    /**
+     * Determine wheter the user can add an item to the wishlist
+     *
+     * @param User $user
+     * @param Wishlist $wishlist
+     * @return mixed
+     */
+    public function addItem(User $user, Wishlist $wishlist)
+    {
+        return ($user->getKey() == $wishlist->user_id);
+    }
+
+    /**
+     * Determine if the wishlist item is editable
+     *
+     * @param User $user
+     * @param Wishlist $wishlist
+     * @param WishlistItem $item
+     * @return mixed
+     */
+    public function editItem(User $user, Wishlist $wishlist, WishlistItem $item)
+    {
+        if ($user->getKey() == $wishlist->user_id) {
+            return ($item->wishlist_id == $wishlist->getKey());
+        }
+
+        return FALSE;
+    }
+
+    /**
+     * Determine if the wishlist item is deletable
+     *
+     * @param User $user
+     * @param Wishlist $wishlist
+     * @param WishlistItem $item
+     * @return mixed
+     */
+    public function deleteItem(User $user, Wishlist $wishlist, WishlistItem $item)
+    {
+        if ($user->getKey() == $wishlist->user_id) {
+            return ($item->wishlist_id == $wishlist->getKey());
+        }
+
+        return FALSE;
     }
 }
