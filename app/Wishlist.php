@@ -20,6 +20,6 @@ class Wishlist extends Model
      */
     public function items()
     {
-        return $this->hasMany(WishlistItem::class);
+        return $this->hasMany(WishlistItem::class, 'wishlist_id');
     }
 }
