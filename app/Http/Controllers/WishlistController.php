@@ -2,9 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\WishlistCreateRequest;
+use App\Http\Requests\WishlistEditRequest;
+use App\Http\Resources\WishlistResource;
+use App\User;
 use App\Wishlist;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
+/**
+ * Handles wishlist and wishlist items creation
+ */
 class WishlistController extends Controller
 {
     /**
@@ -14,17 +23,8 @@ class WishlistController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $wishlists = Wishlist::where('user_id', '=', Auth::id())->get();
+        return WishlistResource::collection( $wishlists );
     }
 
     /**
@@ -33,9 +33,14 @@ class WishlistController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(WishlistCreateRequest $request)
     {
-        //
+        $data = $request->only(['name']);
+        $data['user_id'] = Auth::id();
+
+        $wishlist = Wishlist::create( $data );
+
+        return new WishlistResource( $wishlist );
     }
 
     /**
@@ -46,18 +51,9 @@ class WishlistController extends Controller
      */
     public function show(Wishlist $wishlist)
     {
-        //
-    }
+        Gate::authorize('view', $wishlist);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Wishlist  $wishlist
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Wishlist $wishlist)
-    {
-        //
+        return new WishlistResource( $wishlist );
     }
 
     /**
@@ -67,9 +63,12 @@ class WishlistController extends Controller
      * @param  \App\Wishlist  $wishlist
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Wishlist $wishlist)
+    public function update(WishlistEditRequest $request, Wishlist $wishlist)
     {
-        //
+        $wishlist->fill( $request->only(['name']) );
+        $wishlist->save();
+
+        return new WishlistResource( $wishlist );
     }
 
     /**
@@ -80,6 +79,8 @@ class WishlistController extends Controller
      */
     public function destroy(Wishlist $wishlist)
     {
-        //
+        Gate::authorize('delete', $wishlist);
+
+        $wishlist->delete();
     }
 }

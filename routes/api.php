@@ -14,6 +14,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::middleware('auth:sanctum')->prefix('v1')->group(function(){
+    
+    Route::get('wishlists', 'WishlistController@index');
+
+    Route::get('wishlist/{wishlist}', 'WishlistController@show');
+    
+    Route::post('wishlist', 'WishlistController@store');
+    
+    Route::patch('wishlist/{wishlist}', 'WishlistController@update');
+
+    Route::delete('wishlist/{wishlist}', 'WishlistController@destroy');
 });
