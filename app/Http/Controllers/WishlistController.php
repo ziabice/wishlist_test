@@ -23,7 +23,7 @@ class WishlistController extends Controller
      */
     public function index()
     {
-        $wishlists = Wishlist::where('user_id', '=', Auth::id())->get();
+        $wishlists = Wishlist::with('items')->where('user_id', '=', Auth::id())->get();
         return WishlistResource::collection( $wishlists );
     }
 
@@ -52,6 +52,7 @@ class WishlistController extends Controller
     public function show(Wishlist $wishlist)
     {
         Gate::authorize('view', $wishlist);
+        $wishlist->loadMissing(['items']);
 
         return new WishlistResource( $wishlist );
     }
