@@ -20,6 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware('auth:sanctum')->prefix('v1')->group(function(){
     
+    // Wishlists routes
     Route::get('wishlists', 'WishlistController@index');
 
     Route::get('wishlist/{wishlist}', 'WishlistController@show');
@@ -29,4 +30,12 @@ Route::middleware('auth:sanctum')->prefix('v1')->group(function(){
     Route::patch('wishlist/{wishlist}', 'WishlistController@update');
 
     Route::delete('wishlist/{wishlist}', 'WishlistController@destroy');
+
+    // Wishlist items routes
+    Route::post('wishlist/{wishlist}/item/create', 'WishlistItemsController@store');
+    
+    Route::patch('wishlist/{wishlist}/item/{wishlist_item}', 'WishlistItemsController@update');
+    
+    Route::delete('wishlist/{wishlist}/item/{wishlist_item}', 'WishlistItemsController@destroy');
+
 });
