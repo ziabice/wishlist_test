@@ -25,7 +25,7 @@ class CreateWishlistsTable extends Migration
         });
 
         // Contains all the wishlist items
-        Schema::create('wishilists_items', function(Blueprint $table){
+        Schema::create('wishlists_items', function(Blueprint $table){
             $table->id();
             $table->timestamps();
 
