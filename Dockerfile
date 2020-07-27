@@ -10,8 +10,6 @@ RUN addgroup -g 1000 -S www
 
 RUN adduser -u 1000 -S www -G www
 
-# COPY . /var/www
-
 COPY --chown=www:www . /var/www
 
 USER www
