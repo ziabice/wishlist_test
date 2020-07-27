@@ -18,7 +18,7 @@ class CreateWishlistsTable extends Migration
             $table->id();
             $table->timestamps();
 
-            $table->bigInteger('user_id');
+            $table->foreignId('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('CASCADE')->onDelete('CASCADE');
 
             $table->string('name', '150');
@@ -29,7 +29,7 @@ class CreateWishlistsTable extends Migration
             $table->id();
             $table->timestamps();
 
-            $table->bigInteger('wishlist_id');
+            $table->foreignId('wishlist_id');
             $table->foreign('wishlist_id')->references('id')->on('wishlists')->onDelete('CASCADE')->onUpdate('CASCADE');
 
             $table->string('name', 150);
