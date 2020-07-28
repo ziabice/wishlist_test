@@ -10,17 +10,12 @@ RUN addgroup -g 1000 -S www
 
 RUN adduser -u 1000 -S www -G www
 
-# COPY --chown=www:www ./src /var/www
+COPY --chown=www:www ./src /var/www
 
-COPY ./src/.env-docker.example /var/www/.env
+COPY --chown=www:www ./src/.env-docker.example /var/www/.env
 
-# USER www
+USER www
 
-# RUN /usr/local/bin/composer install
-
-# RUN php artisan key:generate
-
-# RUN php artisan migrate
 
 
 
