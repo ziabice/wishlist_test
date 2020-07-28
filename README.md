@@ -28,6 +28,8 @@ To build the project to a docker container run into the main project dir:
 
 To initialize Laravel after docker image were built:
 
+    cp .env-docker.example .env
+    
     docker-compose exec php /usr/local/bin/composer install
 
     docker-compose exec php php artisan key:generate
