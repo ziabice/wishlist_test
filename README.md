@@ -15,7 +15,7 @@ Time limit: 1 week / 10 days - asap is better :)
 
 ## The project
 
-My project is built using Laravel 7.x, MariaDB, Composer and PHP7.
+My project is built using Laravel 7.x, MariaDB 10.4, Composer and PHP7.4 (fpm), Nginx.
 
 ## Running the project
 
@@ -28,8 +28,9 @@ To build the project to a docker container run into the main project dir:
 
 To initialize Laravel after docker image were built:
 
-    cp .env-docker.example .env
     
+    cp src/.env-docker.example src/.env
+
     docker-compose exec php /usr/local/bin/composer install
 
     docker-compose exec php php artisan key:generate
