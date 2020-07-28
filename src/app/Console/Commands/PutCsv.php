@@ -59,6 +59,8 @@ class PutCsv extends Command
             return 1;
         }
 
+        $this->line(sprintf('Exporting to: %s', $path));
+
         $data = Wishlist::wishlistReport();
 
         $bar = $this->output->createProgressBar(count($data));
